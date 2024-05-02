@@ -1,15 +1,10 @@
 import pygame
+from player import *
+# from player import Player, Player_Star, Player_Umbrella
 import sys
-import main as main
+
 
 pygame.init()
-
-current_scene = None
-
-def switch_scene(scene):
-    global current_scene
-    current_scene = scene
-
 
 SCREEN = pygame.display.set_mode((1000, 700))
 pygame.display.set_caption("Menu")
@@ -17,9 +12,14 @@ pygame.display.set_caption("Menu")
 BG = pygame.image.load(r"C:\Users\Admin\Desktop\pp2\main\images\меню.jpg")
 BG = pygame.transform.scale(BG, (1000, 700))  # Изменяем размер изображения на размер экрана
 
-# Загрузка музыки
-menu_music = pygame.mixer.Sound(r"C:\Users\Admin\Desktop\pp2\main\sounds\про.mp3")
 
+x = 0
+y = 440
+speed = 10
+
+# Загрузка музыки
+menu_music = pygame.mixer.Sound(r"C:\Users\Admin\Desktop\pp2\main\sounds\area12-131883.mp3")
+#game_music = pygame.mixer.Sound(r'C:\Users\Admin\Desktop\pp2\main\sounds\Magic Melody - Es the Storyteller_(bomb-music.ru).mp3')
 def get_font(size): # Returns Press-Start-2P in the desired size
     return pygame.font.SysFont("minecraft.otf", size)
 
@@ -29,18 +29,15 @@ def draw_text(text, font, color, surface, x, y):
     surface.blit(text_obj, text_rect)
 
 def main_menu():
-    # Воспроизведение музыки при отображении заставки
-    menu_music.play(-1)  # -1 означает бесконечное воспроизведение
+    menu_music.play(-1) 
     running = True
     while running:
         SCREEN.blit(BG, (0, 0))
 
         MENU_MOUSE_POS = pygame.mouse.get_pos()
 
-        MENU_TEXT = get_font(100).render("MAIN MENU", True, "#000000")
-        MENU_RECT = MENU_TEXT.get_rect(center=(640, 100))
 
-        draw_text("MAIN MENU", get_font(100), "#000000", SCREEN, 800, 400)
+        draw_text("LONG NIGHT", get_font(100), "#000000", SCREEN, 750, 425)
 
         # Draw buttons
         play_button_rect = pygame.Rect(700, 475, 200, 45)
@@ -58,7 +55,10 @@ def main_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_button_rect.collidepoint(MENU_MOUSE_POS):
                     menu_music.stop()  # Остановка музыки перед запуском игры
-                    main.main()
+                    #game_music.play(-1)
+                    from forest import Main
+                    player = Player1(x, y, speed)
+                    Main(player)
                 if quit_button_rect.collidepoint(MENU_MOUSE_POS):
                     pygame.quit()
                     sys.exit()
